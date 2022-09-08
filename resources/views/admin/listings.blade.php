@@ -2,6 +2,10 @@
 
     <div class="bg-gray-50">
 
+        <div class="container py-4">
+            <x-nav-internal />
+        </div>
+
         <!-- Listings header -->
         <div class="container py-8 lg:py-12">
             <div class="sm:flex sm:items-center">
@@ -199,7 +203,7 @@
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     @foreach ($listings as $listing)
                                         <tr>
-                                            <td class="flex flex-wrap max-w-xs py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                            <td class="flex flex-wrap max-w-md py-4 pl-4 pr-3 text-sm sm:pl-6">
                                                 <div class="flex items-center">
                                                     <div class="h-10 w-10 flex-shrink-0">
                                                         <img class="w-10 h-10" src="{{ $listing->company->logo }}"

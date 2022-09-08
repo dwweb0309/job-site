@@ -1,7 +1,9 @@
 <x-app-layout>
 
     <div class="bg-gray-50">
-
+        <div class="container py-4">
+            <x-nav-internal />
+        </div>
         <!-- Companies header -->
         <div class="container py-8 lg:py-12">
             <div class="sm:flex sm:items-center">

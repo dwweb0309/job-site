@@ -1,7 +1,9 @@
 <x-app-layout>
 
     <div class="bg-gray-50">
-
+        <div class="container py-4">
+            <x-nav-internal />
+        </div>
 
         <div class="container py-8 lg:py-12">
             <div class="sm:flex sm:items-center">
@@ -38,7 +40,7 @@
             <div class="mt-8 flex border-t border-gray-200 pt-2 justify-start">
                 <div id="desktop-menu-2" class="relative inline-block text-left mr-12" x-data="{ isOpen: false }">
                     <div>
-                        <button @click="isOpen = ! isOpen" type="button"
+                        <button @click="isOpen = ! isOpen" @click.outside="isOpen = false" type="button"
                             class="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
                             aria-expanded="false">
                             <span>Nationality</span>
@@ -68,7 +70,7 @@
                 </div>
                 <div id="desktop-menu-3" class="relative inline-block text-left mr-12" x-data="{ isOpen: false }">
                     <div>
-                        <button @click="isOpen = ! isOpen" type="button"
+                        <button @click="isOpen = ! isOpen" @click.outside="isOpen = false" type="button"
                             class="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
                             aria-expanded="false">
                             <span>Tags</span>
@@ -98,7 +100,7 @@
                 </div>
                 <div id="desktop-menu-4" class="relative inline-block text-left mr-12" x-data="{ isOpen: false }">
                     <div>
-                        <button @click="isOpen = ! isOpen" type="button"
+                        <button @click="isOpen = ! isOpen" @click.outside="isOpen = false" type="button"
                             class="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
                             aria-expanded="false">
                             <span>Salary</span>
@@ -133,7 +135,7 @@
                 </div>
                 <div id="desktop-menu-4" class="relative inline-block text-left" x-data="{ isOpen: false }">
                     <div>
-                        <button @click="isOpen = ! isOpen" type="button"
+                        <button @click="isOpen = ! isOpen" @click.outside="isOpen = false" type="button"
                             class="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
                             aria-expanded="false">
                             <span>Age</span>
