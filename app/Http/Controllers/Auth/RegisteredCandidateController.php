@@ -98,7 +98,7 @@ class RegisteredCandidateController extends Controller
             'whatsapp' => $request->whatsapp,
             'photo_url' => '/storage/' . $filePath,
             'location_id' => $request->location_id,
-            'nationality' => $request->location_id,
+            'nationality_id' => $request->location_id,
             'gender' => $request->gender,
             'currency_code' => $request->currency_code,
             'description' => $request->description

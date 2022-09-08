@@ -19,7 +19,7 @@ class Profile extends Model
         'whatsapp',
         'photo_url',
         'location_id',
-        'nationality',
+        'nationality_id',
         'dob',
         'gender',
         'expected_salary',
@@ -29,6 +29,10 @@ class Profile extends Model
 
     public function location() {
         return $this->belongsTo(Location::class, 'location_id');
+    }
+
+    public function nationality() {
+        return $this->belongsTo(Location::class, 'nationality_id');
     }
 
     public function tags() {

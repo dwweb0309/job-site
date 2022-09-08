@@ -17,7 +17,7 @@ class CreateProfilesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('location_id')->constrained('locations');
-            $table->foreignId('nationality')->constrained('locations');
+            $table->foreignId('nationality_id')->constrained('locations');
             $table->string('photo_url')->nullable();
             $table->string('linkedin_url')->nullable();
             $table->string('whatsapp')->nullable();

@@ -24,7 +24,7 @@ class ProfileFactory extends Factory
         
         return [
             'location_id' => $location_id,
-            'nationality' => $location_id,
+            'nationality_id' => $location_id,
             'photo_url' => $this->faker->imageUrl(200, 200),
             'linkedin_url' => $this->faker->url(),
             'whatsapp' => $this->faker->phoneNumber(),

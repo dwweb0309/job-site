@@ -20,4 +20,11 @@ class Location extends Model
     public function listings() {
         return $this->hasMany(Listing::class, 'location');
     }
+
+    public static function listing_locations()
+    {
+        $locations = Location::where('hiring_source', true)->get();
+
+        return $locations;
+    }
 }
