@@ -11,6 +11,9 @@
         </div>
         <x-filter headline="All jobs ({{ $listings->count() }})" description=""></x-filter>
         <div class="">
+            @if(Session::has('listing-created'))
+            <div id="success-message">{{ Session::get('listing-created') }}</div>
+            @endif
 
             <ul class="divide-y divide-gray-100">
                 @foreach ($listings as $listing)

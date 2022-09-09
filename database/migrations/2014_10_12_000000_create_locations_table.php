@@ -18,6 +18,7 @@ class CreateLocationsTable extends Migration
             $table->string('name');
             $table->boolean('hiring_source');
             $table->boolean('hiring_destination');
+            $table->string('currency_code');
             $table->timestamps();
         });
     }

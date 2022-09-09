@@ -37,6 +37,13 @@
                     <x-label for="tags" value="Tags (separate by comma)" />
                     <x-input id="tags" class="block mt-1 w-full" type="text" name="tags" :value="old('tags')" />
                 </div>
+
+                <div class="mb-4 mx-2">
+                    <x-label for="currency_code" value="Currency code" />
+                    <x-select id="currency_code" class="block mt-1 w-full" :items="$currency_codes" item_value="name"
+                    item_text="name" name="currency_code" :value="old('currency_code') ? old('currency_code') : Auth::user()->company->location->currency_code" />
+                </div>
+
                 <div class="mb-4 mx-2">
                     <x-label for="content" value="Job description" />
                     <textarea id="content" rows="8"
@@ -89,7 +96,7 @@
                                     class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                             <div class="ml-3 text-sm">
-                                <label for="offers" class="font-medium text-gray-700">Working from office
+                                <label for="inperson_allowed" class="font-medium text-gray-700">Working from office
                                     (inperson)</label>
                                 <p class="text-gray-500">Employee is expected to work from the office full-time.</p>
                             </div>
@@ -100,7 +107,7 @@
                                     class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                             <div class="ml-3 text-sm">
-                                <label for="comments" class="font-medium text-gray-700">Remote work allowed</label>
+                                <label for="remote_allowed" class="font-medium text-gray-700">Remote work allowed</label>
                                 <p class="text-gray-500">Employee can work from home our outside the office.</p>
                             </div>
                         </div>
@@ -110,7 +117,7 @@
                                     class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                             <div class="ml-3 text-sm">
-                                <label for="candidates" class="font-medium text-gray-700">Hybrid work allowed</label>
+                                <label for="hybrid_allowed" class="font-medium text-gray-700">Hybrid work allowed</label>
                                 <p class="text-gray-500">Employee can work partly from home but is also expected to
                                     come to office at times.</p>
                             </div>

@@ -8,12 +8,14 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Listing;
+use App\Models\CurrencyCode;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Session;
 
 class ListingController extends Controller
 {
@@ -80,19 +82,14 @@ class ListingController extends Controller
 
     public function create()
     {
-        if (!Auth::check())
+        if (Auth::check() && (Auth::user()->is_employer() || Auth::user()->is_admin()))
         {
-            return redirect()->route('register.employer.first');
+            $currency_codes = CurrencyCode::get();
+
+            return view('listings.create', compact('currency_codes'));
         }
 
-        // Check if authenticated user is employer
-
-        // if (!Auth::user()->is_employer())
-        // {
-        //     return redirect()->route('register.employer.first');
-        // }
-
-        return view('listings.create');
+        return redirect()->route('register.employer.first');
     }
 
     public function store(Request $request)
@@ -118,10 +115,10 @@ class ListingController extends Controller
                 'age_max' => $request->age_max,
                 'salary_min' => $request->salary_min,
                 'salary_max' => $request->salary_max,
+                'currency_code' => $request->currency_code,
                 'remote_allowed' => $request->has('remote_allowed') ?? false,
                 'hybrid_allowed' => $request->has('hybrid_allowed') ?? false,
                 'inperson_allowed' => $request->has('inperson_allowed') ?? false,
-                'currency_code' => $request->has('currency_code') ?? 'USD',
                 'is_highlighted' => $request->filled('is_highlighted'),
                 'is_active' => true
             ]);
@@ -135,6 +132,8 @@ class ListingController extends Controller
 
             $tag->listings()->attach($listing->id);
         }
+
+        Session::flash('listing-created', 'Successfully Created!'); 
 
         return redirect()->route('listings.index');
 

@@ -19,16 +19,17 @@ Route::get('/', [Controllers\ListingController::class, 'index'])
     ->name('listings.index');
 
 Route::get('/new', [Controllers\ListingController::class, 'create'])
-->name('listings.create');
+    ->name('listings.create');
 
 Route::post('/new', [Controllers\ListingController::class, 'store'])
+    ->middleware('role:Employer')
     ->name('listings.store');
 
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => 'auth'], function () {
     Route::get('/', [Controllers\DashboardController::class, 'index'])->name('index');
 });
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'role:Admin'], function () {
     Route::get('/', [Controllers\AdminController::class, 'index'])->name('index');
     Route::get('/users', [Controllers\AdminController::class, 'users'])->name('users');
     Route::get('/companies', [Controllers\AdminController::class, 'companies'])->name('companies');
