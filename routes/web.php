@@ -14,12 +14,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+require __DIR__.'/auth.php';
 
 Route::get('/', [Controllers\ListingController::class, 'index'])
     ->name('listings.index');
 
 Route::get('/new', [Controllers\ListingController::class, 'create'])
     ->name('listings.create');
+Route::get('/{listing:slug}', [Controllers\ListingController::class, 'show'])
+        ->name('listings.show');
+Route::get('/{listing:slug}/edit', [Controllers\ListingController::class, 'edit'])
+    ->name('listings.edit');
+
+Route::get('/{listing:slug}/apply', [Controllers\ListingController::class, 'apply'])
+    ->name('listings.apply');
 
 Route::post('/new', [Controllers\ListingController::class, 'store'])
     ->middleware('role:Employer')
@@ -40,11 +48,3 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => 'auth']
     Route::get('/', [Controllers\CompanyController::class, 'index'])->name('index');
     Route::get('/listings', [Controllers\CompanyController::class, 'listings'])->name('listings');
 });
-
-require __DIR__.'/auth.php';
-
-Route::get('/{listing:slug}', [Controllers\ListingController::class, 'show'])
-    ->name('listings.show');
-
-Route::get('/{listing:slug}/apply', [Controllers\ListingController::class, 'apply'])
-    ->name('listings.apply');

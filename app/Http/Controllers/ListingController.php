@@ -92,6 +92,20 @@ class ListingController extends Controller
         return redirect()->route('register.employer.first');
     }
 
+    public function edit(Listing $listing)
+    {
+        // dd($listing->content);
+        if (Auth::check() && Auth::user()->is_admin() ||
+            Auth::check() && Auth::user()->is_employer() && Auth::user()->company->id == $listing->company->id)
+        {
+            $currency_codes = CurrencyCode::get();
+
+            return view('listings.edit', compact('currency_codes', 'listing'));
+        }
+
+        return redirect()->route('register.employer.first');
+    }
+
     public function store(Request $request)
     {
         // process the listing creation form

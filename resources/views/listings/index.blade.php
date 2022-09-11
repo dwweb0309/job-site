@@ -69,6 +69,10 @@
                                 </dl>
                             </div>
                         </div>
+                        <a href="{{ route('listings.edit', $listing->slug) }}">
+
+                            Edit
+                        </a>
                     </li>
                     @if ($loop->index % 6 == 0 && $loop->index > 1)
                     <li>
