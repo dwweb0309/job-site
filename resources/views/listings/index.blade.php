@@ -11,8 +11,8 @@
         </div>
         <x-filter headline="All jobs ({{ $listings->count() }})" description=""></x-filter>
         <div class="">
-            @if(Session::has('listing-created'))
-            <div id="success-message">{{ Session::get('listing-created') }}</div>
+            @if(Session::has('message'))
+            <div id="success-message">{{ Session::get('message') }}</div>
             @endif
 
             <ul class="divide-y divide-gray-100">
@@ -69,10 +69,12 @@
                                 </dl>
                             </div>
                         </div>
+                        @if($listing->is_editable())
                         <a href="{{ route('listings.edit', $listing->slug) }}">
 
                             Edit
                         </a>
+                        @endif
                     </li>
                     @if ($loop->index % 6 == 0 && $loop->index > 1)
                     <li>

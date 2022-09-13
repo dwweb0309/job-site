@@ -15,8 +15,10 @@
                     </ul>
                 </div>
             @endif
-            <form action="{{ route('listings.store') }}" id="payment_form" method="post" enctype="multipart/form-data"
+            <form action="{{ route('listings.update', $listing->slug) }}" id="payment_form" method="post" enctype="multipart/form-data"
                 class="bg-gray-100 p-4">
+                @method('PUT')
+                @csrf
                 <div class="mb-4 mx-2">
                     <x-label for="title" value="Job Title" />
                     <x-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title') ?? $listing->title"
@@ -140,45 +142,11 @@
                             Have our recruiter handpick you additional 5 qualified candidates ($249)</span>
                     </label>
                 </div>
-                <div class="mb-6 mx-2">
-                    <div id="card-element"></div>
-                </div>
                 <div class="mb-2 mx-2">
-                    @csrf
-                    <input type="hidden" id="payment_method_id" name="payment_method_id" value="">
                     <button type="submit" id="form_submit"
-                        class="block w-full items-center bg-indigo-500 text-white border-0 py-2 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0">Pay
-                        + Publish listing</button>
+                        class="block w-full items-center bg-indigo-500 text-white border-0 py-2 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0">Update listing</button>
                 </div>
             </form>
         </div>
     </section>
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
-        const stripe = Stripe("{{ env('STRIPE_KEY') }}");
-        const elements = stripe.elements();
-        const cardElement = elements.create('card', {
-            classes: {
-                base: 'StripeElement rounded-md shadow-sm bg-white px-2 py-3 border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full'
-            }
-        });
-        cardElement.mount('#card-element');
-        document.getElementById('form_submit').addEventListener('click', async (e) => {
-            // prevent the submission of the form immediately
-            e.preventDefault();
-            const {
-                paymentMethod,
-                error
-            } = await stripe.createPaymentMethod(
-                'card', cardElement, {}
-            );
-            if (error) {
-                alert(error.message);
-            } else {
-                // card is ok, create payment method id and submit form
-                document.getElementById('payment_method_id').value = paymentMethod.id;
-                document.getElementById('payment_form').submit();
-            }
-        })
-    </script>
 </x-app-layout>

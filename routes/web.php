@@ -25,6 +25,8 @@ Route::get('/{listing:slug}', [Controllers\ListingController::class, 'show'])
         ->name('listings.show');
 Route::get('/{listing:slug}/edit', [Controllers\ListingController::class, 'edit'])
     ->name('listings.edit');
+Route::put('/{listing:slug}/update', [Controllers\ListingController::class, 'update'])
+    ->name('listings.update');
 
 Route::get('/{listing:slug}/apply', [Controllers\ListingController::class, 'apply'])
     ->name('listings.apply');

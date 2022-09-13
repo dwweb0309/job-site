@@ -50,7 +50,6 @@ class ListingController extends Controller
         $tags = Tag::orderBy('name')
             ->get();
 
-
         return view('listings.index', compact('listings', 'tags'));
     }
 
@@ -94,7 +93,6 @@ class ListingController extends Controller
 
     public function edit(Listing $listing)
     {
-        // dd($listing->content);
         if (Auth::check() && Auth::user()->is_admin() ||
             Auth::check() && Auth::user()->is_employer() && Auth::user()->company->id == $listing->company->id)
         {
@@ -103,7 +101,8 @@ class ListingController extends Controller
             return view('listings.edit', compact('currency_codes', 'listing'));
         }
 
-        return redirect()->route('register.employer.first');
+        Auth::logout();
+        return redirect()->route('login');
     }
 
     public function store(Request $request)
@@ -147,7 +146,7 @@ class ListingController extends Controller
             $tag->listings()->attach($listing->id);
         }
 
-        Session::flash('listing-created', 'Successfully Created!'); 
+        Session::flash('message', 'Successfully Created!'); 
 
         return redirect()->route('listings.index');
 
@@ -190,5 +189,57 @@ class ListingController extends Controller
         //     return redirect()->back()
         //         ->withErrors(['error' => $e->getMessage()]);
         // }
+    }
+
+    public function update(Request $request, Listing $listing)
+    {
+        $validationArray = [
+            'title' => 'required',
+            'content' => 'required',
+            'age_min' => 'required|number',
+            'age_max' => 'required|number',
+            'salary_max' => 'required|number',
+            'salary_max' => 'required|number'
+        ];
+        if (Auth::check() && Auth::user()->is_admin() ||
+            Auth::check() && Auth::user()->is_employer() && Auth::user()->company->id == $listing->company->id)
+        {
+            $listing->update([
+                'title' => $request->title,
+                'slug' => Str::slug($request->title) . '-' . rand(1111, 9999),
+                'apply_link' => $request->apply_link,
+                'content' => $request->content,
+                'age_min' => $request->age_min,
+                'age_max' => $request->age_max,
+                'salary_min' => $request->salary_min,
+                'salary_max' => $request->salary_max,
+                'currency_code' => $request->currency_code,
+                'remote_allowed' => $request->has('remote_allowed') ?? false,
+                'hybrid_allowed' => $request->has('hybrid_allowed') ?? false,
+                'inperson_allowed' => $request->has('inperson_allowed') ?? false,
+                'is_highlighted' => $request->filled('is_highlighted')
+            ]);
+    
+            $tag_ids = [];
+
+            foreach(explode(',', $request->tags) as $requestTag) {
+                $tag = Tag::firstOrCreate([
+                    'slug' => Str::slug(trim($requestTag))
+                ], [
+                    'name' => ucwords(trim($requestTag))
+                ]);
+
+                array_push($tag_ids, $tag->id);
+            }
+
+            $listing->tags()->sync($tag_ids);
+            
+            Session::flash('message', 'Successfully Updated!'); 
+            
+            return redirect()->route('listings.index');
+        } else {
+            Auth::logout();
+            return redirect()->route('login');
+        }
     }
 }

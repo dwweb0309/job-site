@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Listing extends Model
 {
@@ -56,5 +57,13 @@ class Listing extends Model
 
     public function candidates() {
         return $this->hasMany(Candidate::class, 'listing_id', 'user_id');
+    }
+
+    public function is_editable() {
+        if (Auth::check() && Auth::user()->is_admin() ||
+            Auth::check() && Auth::user()->is_employer() && Auth::user()->company->id == $this->company->id)
+            return true;
+        
+        return false;
     }
 }
