@@ -93,8 +93,7 @@ class ListingController extends Controller
 
     public function edit(Listing $listing)
     {
-        if (Auth::check() && Auth::user()->is_admin() ||
-            Auth::check() && Auth::user()->is_employer() && Auth::user()->company->id == $listing->company->id)
+        if ($listing->is_editable())
         {
             $currency_codes = CurrencyCode::get();
 
@@ -201,8 +200,7 @@ class ListingController extends Controller
             'salary_max' => 'required|number',
             'salary_max' => 'required|number'
         ];
-        if (Auth::check() && Auth::user()->is_admin() ||
-            Auth::check() && Auth::user()->is_employer() && Auth::user()->company->id == $listing->company->id)
+        if ($listing->is_editable())
         {
             $listing->update([
                 'title' => $request->title,
