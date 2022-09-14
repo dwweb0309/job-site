@@ -19,6 +19,12 @@ require __DIR__.'/auth.php';
 Route::get('/', [Controllers\ListingController::class, 'index'])
     ->name('listings.index');
 
+Route::get('/user/{id}', [Controllers\UserController::class, 'show'])
+    ->name('user.show');
+Route::get('/user/{id}/edit', [Controllers\UserController::class, 'edit'])
+    ->middleware('auth')
+    ->name('user.edit');
+
 Route::get('/new', [Controllers\ListingController::class, 'create'])
     ->name('listings.create');
 Route::get('/{listing:slug}', [Controllers\ListingController::class, 'show'])
