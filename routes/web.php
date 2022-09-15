@@ -25,22 +25,6 @@ Route::get('/user/{id}/edit', [Controllers\UserController::class, 'edit'])
     ->middleware('auth')
     ->name('user.edit');
 
-Route::get('/new', [Controllers\ListingController::class, 'create'])
-    ->name('listings.create');
-Route::get('/{listing:slug}', [Controllers\ListingController::class, 'show'])
-        ->name('listings.show');
-Route::get('/{listing:slug}/edit', [Controllers\ListingController::class, 'edit'])
-    ->name('listings.edit');
-Route::put('/{listing:slug}/update', [Controllers\ListingController::class, 'update'])
-    ->name('listings.update');
-
-Route::get('/{listing:slug}/apply', [Controllers\ListingController::class, 'apply'])
-    ->name('listings.apply');
-
-Route::post('/new', [Controllers\ListingController::class, 'store'])
-    ->middleware('role:Employer')
-    ->name('listings.store');
-
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => 'auth'], function () {
     Route::get('/', [Controllers\DashboardController::class, 'index'])->name('index');
 });
@@ -56,3 +40,19 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => 'auth']
     Route::get('/', [Controllers\CompanyController::class, 'index'])->name('index');
     Route::get('/listings', [Controllers\CompanyController::class, 'listings'])->name('listings');
 });
+
+Route::get('/new', [Controllers\ListingController::class, 'create'])
+    ->name('listings.create');
+Route::get('/{listing:slug}', [Controllers\ListingController::class, 'show'])
+        ->name('listings.show');
+Route::get('/{listing:slug}/edit', [Controllers\ListingController::class, 'edit'])
+    ->name('listings.edit');
+Route::put('/{listing:slug}/update', [Controllers\ListingController::class, 'update'])
+    ->name('listings.update');
+
+Route::get('/{listing:slug}/apply', [Controllers\ListingController::class, 'apply'])
+    ->name('listings.apply');
+
+Route::post('/new', [Controllers\ListingController::class, 'store'])
+    ->middleware('role:Employer')
+    ->name('listings.store');

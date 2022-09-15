@@ -11,14 +11,23 @@ class UserController extends Controller
     public function show(Request $request, $id)
     {
         $user = User::find($id);
+        
+        if ($user->is_employer())
+        {
+            return view('profiles.company.show', compact('user'));
+        }
+        else if ($user->is_candidate())
+        {
+            return view('profiles.user.show', compact('user'));
+        }
 
-        return view('user.show', compact('user'));
+        return 'Profile page of others';
     }
 
     public function edit(Request $request, $id)
     {
         $user = User::find($id);
 
-        return view('user.edit', compact('user'));
+        return view('profiles.user.edit', compact('user'));
     }
 }

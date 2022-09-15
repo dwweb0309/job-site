@@ -30,7 +30,9 @@ class ProfileFactory extends Factory
             'whatsapp' => $this->faker->phoneNumber(),
             'description' => $this->faker->realText(200),
             'gender' => $gender,
-            'currency_code' => $this->faker->currencyCode()
+            'currency_code' => $this->faker->currencyCode(),
+            'dob' => $this->faker->date('M d, Y'),
+            'expected_salary' => ($this->faker->randomNumber(1) + 1) * 1000
         ];
     }
 }
