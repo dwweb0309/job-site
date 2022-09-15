@@ -71,14 +71,19 @@
                                 <!-- Active: "bg-gray-100", Not Active: "" -->
                                 <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
                                     tabindex="-1" id="user-menu-item-0">My listings</a>
+                                
+                                @if(Auth::user()->is_employer())
+                                <a href="{{ route('company.show', Auth::user()->company->id) }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
+                                    tabindex="-1" id="user-menu-item-0">
+                                        Company information
+                                </a>
+                                @elseif(Auth::user()->is_candidate())
                                 <a href="{{ route('user.show', Auth::user()->id) }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
                                     tabindex="-1" id="user-menu-item-0">
-                                    @if(Auth::user()->is_employer())
-                                        Company information
-                                    @else
-                                        My Profile
-                                    @endif
+                                    My Profile
                                 </a>
+                                @endif
+
                                 <a href="#" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
                                     tabindex="-1" id="user-menu-item-1">Settings</a>
                                 <form method="POST" action="{{ route('logout') }}">

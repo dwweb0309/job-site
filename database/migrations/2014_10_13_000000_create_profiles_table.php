@@ -21,7 +21,7 @@ class CreateProfilesTable extends Migration
             $table->string('photo_url')->nullable();
             $table->string('linkedin_url')->nullable();
             $table->string('whatsapp')->nullable();
-            $table->enum('gender', ['Male', 'Female', 'Not sure'])->default('Male');
+            $table->string('gender')->default('Male');
             $table->string('dob')->nullable();
             $table->integer('expected_salary')->nullable();
             $table->string('currency_code')->default('USD');

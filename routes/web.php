@@ -19,11 +19,14 @@ require __DIR__.'/auth.php';
 Route::get('/', [Controllers\ListingController::class, 'index'])
     ->name('listings.index');
 
-Route::get('/user/{id}', [Controllers\UserController::class, 'show'])
-    ->name('user.show');
-Route::get('/user/{id}/edit', [Controllers\UserController::class, 'edit'])
-    ->middleware('auth')
-    ->name('user.edit');
+Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'role:Candidate'], function () {
+    Route::get('/{id}', [Controllers\UserController::class, 'show'])
+        ->name('show');
+    Route::get('/{id}/edit', [Controllers\UserController::class, 'edit'])
+        ->name('edit');
+    Route::put('/{id}/update', [Controllers\UserController::class, 'update'])
+        ->name('update');
+});
 
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => 'auth'], function () {
     Route::get('/', [Controllers\DashboardController::class, 'index'])->name('index');
@@ -36,9 +39,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'role:Admin
     Route::get('/listings', [Controllers\AdminController::class, 'listings'])->name('listings');
 });
 
-Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => 'role:Employer'], function () {
     Route::get('/', [Controllers\CompanyController::class, 'index'])->name('index');
+    Route::get('/{id}', [Controllers\CompanyController::class, 'show'])->name('show');
     Route::get('/listings', [Controllers\CompanyController::class, 'listings'])->name('listings');
+    Route::get('/{id}/edit', [Controllers\CompanyController::class, 'edit'])->name('edit');
+    Route::put('/{id}/update', [Controllers\CompanyController::class, 'update'])->name('update');
 });
 
 Route::get('/new', [Controllers\ListingController::class, 'create'])
