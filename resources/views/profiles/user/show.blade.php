@@ -3,20 +3,20 @@
     <x-settings>
         <x-slot:submenu>
             @if (Auth::check())
-
-            <div class="space-y-1" aria-label="Sidebar">
-                <!-- Current: "bg-gray-100 text-gray-900", Default: "text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
-                <a href="#" class="bg-gray-100 text-gray-900 flex items-center px-3 py-2 text-sm font-medium rounded-md" aria-current="page">
-                <span class="truncate">Profile</span>
-                </a>
-            
-                <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 flex items-center px-3 py-2 text-sm font-medium rounded-md">
-                <span class="truncate">My applications</span>
-                </a>
-            
-            </div>
+            <x-navs.side :items='[
+                [
+                  "name" => "My profile",
+                  "target" => route("user.show", $user->id)
+                ],
+                [
+                  "name" => "Edit profile",
+                  "target" => route("user.edit", $user->id)
+                ]
+              ]' />
 
             @endif
+
+            
         </x-slot>
         
         @if (Auth::check())
@@ -32,7 +32,9 @@
         
             <x-section-data label="Email" :content="$user->email" />
         
+                @isset($user->profile->whatsapp)
             <x-section-data label="WhatsApp" :content="$user->profile->whatsapp" />
+                @endisset
 
         </div>
         @endif

@@ -1,4 +1,4 @@
-@props(['title', 'description' => false, 'cta', 'target' => '#', 'searchBox' => false])
+@props(['title', 'description' => false, 'cta' => false, 'target' => '#', 'searchBox' => false])
 
 
 <div class="md:flex md:items-center md:justify-between">

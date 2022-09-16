@@ -24,7 +24,7 @@ class UserController extends Controller
     public function edit(Request $request, $id)
     {
         $user = User::find($id);
-        $locations = Location::get()->where('hiring_source', true);
+        $locations = Location::get();
         $currency_codes = CurrencyCode::get();
 
         $date = date_create($user->profile->dob);

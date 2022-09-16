@@ -69,9 +69,12 @@
                                   <p class="text-xs text-gray-700">{{ auth()->user()->email }}</p>
                                 </div>
                                 <!-- Active: "bg-gray-100", Not Active: "" -->
-                                <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
+
+                                @if(Auth::user()->is_employer())
+                                <a href="{{ route('company.listings') }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
                                     tabindex="-1" id="user-menu-item-0">My listings</a>
-                                
+                                @endif
+
                                 @if(Auth::user()->is_employer())
                                 <a href="{{ route('company.show', Auth::user()->company->id) }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
                                     tabindex="-1" id="user-menu-item-0">
