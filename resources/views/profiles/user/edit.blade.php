@@ -6,11 +6,11 @@
             <x-navs.side :items='[
                 [
                   "name" => "My profile",
-                  "target" => route("user.show", $user->id)
+                  "target" => route("user.show")
                 ],
                 [
                   "name" => "Edit profile",
-                  "target" => route("user.edit", $user->id)
+                  "target" => route("user.edit")
                 ]
               ]' />
             @endif
@@ -29,7 +29,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('user.update', $user->id) }}" id="payment_form" method="post"
+            <form action="{{ route('user.update') }}" id="payment_form" method="post"
                 enctype="multipart/form-data" class="space-y-4">
                 @method('PUT')
                 @csrf
@@ -40,12 +40,27 @@
                         required />
                 </div>
 
+                <!-- Avatar -->
+                <div>
+                    <x-label for="photo_url" :value="__('Avatar')" />
+
+                    <input id="photo_url" type="file" class="block mt-1 w-full" name="photo_url">
+                </div>
+
                 <!-- Location -->
                 <div>
                     <x-label for="location_id" :value="__('Location')" />
 
                     <x-select id="location_id" class="block mt-1 w-full" :items="$locations" item_value="id" item_text="name"
                         name="location_id" :selected="old('location_id') ?? $user->profile->location_id" autofocus />
+                </div>
+
+                <!-- Nationality -->
+                <div>
+                    <x-label for="nationality_id" :value="__('Nationality')" />
+
+                    <x-select id="nationality_id" class="block mt-1 w-full" :items="$locations->where('hiring_source', true)" item_value="id" item_text="name"
+                        name="nationality_id" :selected="old('nationality_id') ?? $user->profile->nationality_id" autofocus />
                 </div>
 
                 <!-- Linkedin url -->

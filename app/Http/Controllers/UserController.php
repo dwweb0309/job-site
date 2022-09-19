@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\User;
 use App\Models\Location;
@@ -14,16 +15,16 @@ use App\Models\Tag;
 
 class UserController extends Controller
 {
-    public function show(Request $request, $id)
+    public function show(Request $request)
     {
-        $user = User::find($id);
+        $user = Auth::user();
         
         return view('profiles.user.show', compact('user'));
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request)
     {
-        $user = User::find($id);
+        $user = Auth::user();
         $locations = Location::get();
         $currency_codes = CurrencyCode::get();
 
@@ -34,15 +35,17 @@ class UserController extends Controller
         return view('profiles.user.edit', compact('user', 'locations', 'currency_codes'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $user = User::findOrFail($id);
+        $user = Auth::user();
 
         $validationArray = [
             'name' => 'required',
             'location_id' => 'required',
+            'nationality_id' => 'required',
             'gender' => 'required',
             'dob' => 'required',
+            'logo' => 'sometimes|file|mimes:jpeg,jpg,png',
             'expected_salary' => 'required|number'
         ];
 
@@ -50,8 +53,9 @@ class UserController extends Controller
             'name' => $request->name
         ]);
 
-        $user->profile()->update([
+        $data = [
             'location_id' => $request->location_id,
+            'nationality_id' => $request->nationality_id,
             'linkedin_url' => $request->linkedin_url,
             'whatsapp' => $request->whatsapp,
             'gender' => $request->gender,
@@ -59,7 +63,20 @@ class UserController extends Controller
             'expected_salary' => $request->expected_salary,
             'currency_code' => $request->currency_code,
             'description' => $request->description,
-        ]);
+        ];
+
+        if ($request->exists('photo_url')) {
+            $fileName = time().'_'.$request->photo_url->getClientOriginalName();
+            $filePath = $request->file('photo_url')->storeAs('uploads', $fileName, 'public');
+
+            $data = array_merge($data, [
+                'photo_url' => '/storage/' . $filePath
+            ]);
+
+            Storage::delete($user->profile->photo_url);
+        }
+
+        $user->profile()->update($data);
 
         $tag_ids = [];
 
@@ -77,6 +94,6 @@ class UserController extends Controller
         
         Session::flash('message', 'Successfully Updated!');
         
-        return redirect()->route('user.show', $user->id);
+        return redirect()->route('user.show');
     }
 }

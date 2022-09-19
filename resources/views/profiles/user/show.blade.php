@@ -6,11 +6,11 @@
             <x-navs.side :items='[
                 [
                   "name" => "My profile",
-                  "target" => route("user.show", $user->id)
+                  "target" => route("user.show")
                 ],
                 [
                   "name" => "Edit profile",
-                  "target" => route("user.edit", $user->id)
+                  "target" => route("user.edit")
                 ]
               ]' />
 
@@ -21,7 +21,7 @@
         
         @if (Auth::check())
 
-            <x-page-heading title="My profile" cta="Edit profile" :target="route('user.edit', $user->id)" />
+            <x-page-heading title="My profile" cta="Edit profile" :target="route('user.edit')" />
 
         @endif
 
@@ -65,6 +65,8 @@
         <x-section-data label="LinkedIn Profile" :content="$user->profile->linkedin_url" />
 
         <x-section-data label="Nationality" :content="$user->profile->nationality->name" />
+        
+        <x-section-data label="Location" :content="$user->profile->location->name" />
 
         <x-section-data label="Preferred job location" :content="$user->profile->nationality->name" />
 

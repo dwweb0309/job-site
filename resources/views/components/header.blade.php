@@ -76,12 +76,12 @@
                                 @endif
 
                                 @if(Auth::user()->is_employer())
-                                <a href="{{ route('company.show', Auth::user()->company->id) }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
+                                <a href="{{ route('company.show') }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
                                     tabindex="-1" id="user-menu-item-0">
                                         Company information
                                 </a>
                                 @elseif(Auth::user()->is_candidate())
-                                <a href="{{ route('user.show', Auth::user()->id) }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
+                                <a href="{{ route('user.show') }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
                                     tabindex="-1" id="user-menu-item-0">
                                     My Profile
                                 </a>

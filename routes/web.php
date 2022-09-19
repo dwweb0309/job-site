@@ -20,11 +20,11 @@ Route::get('/', [Controllers\ListingController::class, 'index'])
     ->name('listings.index');
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'role:Candidate'], function () {
-    Route::get('/{id}', [Controllers\UserController::class, 'show'])
+    Route::get('/show', [Controllers\UserController::class, 'show'])
         ->name('show');
-    Route::get('/{id}/edit', [Controllers\UserController::class, 'edit'])
+    Route::get('/edit', [Controllers\UserController::class, 'edit'])
         ->name('edit');
-    Route::put('/{id}/update', [Controllers\UserController::class, 'update'])
+    Route::put('/update', [Controllers\UserController::class, 'update'])
         ->name('update');
 });
 
@@ -42,9 +42,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'role:Admin
 Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => 'role:Employer'], function () {
     Route::get('/', [Controllers\CompanyController::class, 'index'])->name('index');
     Route::get('/listings', [Controllers\CompanyController::class, 'listings'])->name('listings');
-    Route::get('/{id}', [Controllers\CompanyController::class, 'show'])->name('show');
-    Route::get('/{id}/edit', [Controllers\CompanyController::class, 'edit'])->name('edit');
-    Route::put('/{id}/update', [Controllers\CompanyController::class, 'update'])->name('update');
+    Route::get('/show', [Controllers\CompanyController::class, 'show'])->name('show');
+    Route::get('/edit', [Controllers\CompanyController::class, 'edit'])->name('edit');
+    Route::put('/update', [Controllers\CompanyController::class, 'update'])->name('update');
 });
 
 Route::get('/new', [Controllers\ListingController::class, 'create'])
