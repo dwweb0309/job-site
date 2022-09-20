@@ -15,12 +15,7 @@ use App\Models\Tag;
 
 class CompanyController extends Controller
 {
-    public function index(Request $request)
-    {
-        return view('company.dashboard');
-    }
-
-    public function show(Request $request)
+    public function dashboard(Request $request)
     {
         $company = Auth::user()->company;
 
@@ -90,6 +85,6 @@ class CompanyController extends Controller
         
         Session::flash('message', 'Successfully Updated!'); 
         
-        return redirect()->route('company.show');
+        return redirect()->route('company.dashboard');
     }
 }

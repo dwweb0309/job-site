@@ -6,7 +6,7 @@
                 <x-navs.side :items="[
                     [
                         'name' => 'Company profile',
-                        'target' => route('company.show'),
+                        'target' => route('company.dashboard'),
                     ],
                     [
                         'name' => 'Edit profile',
@@ -17,7 +17,7 @@
         </x-slot>
         
         <form action="{{ route('company.update') }}" id="payment_form" method="post" enctype="multipart/form-data"
-            class="bg-gray-100 p-4">
+            class="space-y-4">
             @method('PUT')
             @csrf
 

@@ -40,9 +40,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'role:Admin
 });
 
 Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => 'role:Employer'], function () {
-    Route::get('/', [Controllers\CompanyController::class, 'index'])->name('index');
+    Route::get('/', [Controllers\CompanyController::class, 'dashboard'])->name('dashboard');
     Route::get('/listings', [Controllers\CompanyController::class, 'listings'])->name('listings');
-    Route::get('/show', [Controllers\CompanyController::class, 'show'])->name('show');
     Route::get('/edit', [Controllers\CompanyController::class, 'edit'])->name('edit');
     Route::put('/update', [Controllers\CompanyController::class, 'update'])->name('update');
 });
