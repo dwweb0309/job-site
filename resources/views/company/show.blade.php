@@ -20,6 +20,10 @@
             @endif
         </x-slot>
 
+        @if(Session::has('message'))
+            <div id="success-message">{{ Session::get('message') }}</div>
+        @endif
+
         @if (Auth::check())
             <x-page-heading title="My profile" cta="Edit Company profile" :target="route('company.edit')" />
         @endif
@@ -79,7 +83,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    @foreach ($company->listings as $listing)
+                                    @foreach ($company->listings->where('is_active', true) as $listing)
                                         <tr>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 <a href="#">
@@ -123,11 +127,16 @@
                                             </td>
                                             <td
                                                 class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                <a href="#"
+                                                <a href="{{ route('listings.edit', $listing->slug) }}"
                                                     class="text-indigo-600 hover:text-indigo-900">Edit<span
                                                         class="sr-only">, {{ $listing->title }}</span></a>
-                                                <a href="#" class="text-red-800 hover:text-indigo-900">Delete<span
-                                                        class="sr-only">, {{ $listing->title }}</span></a>
+                                                <form action="{{ route('listings.destroy', $listing->slug) }}" method="post"
+                                                    onsubmit="return ConfirmDelete();">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="submit" class="text-red-800 hover:text-indigo-900">Delete<span
+                                                            class="sr-only">, {{ $listing->title }}</span></button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -138,7 +147,15 @@
                 </div>
             </div>
         </div>
+    </x-settings>
 
+    
+    <script>
+        function ConfirmDelete()
+        {
+            const x = confirm("Are you sure you want to delete?");
 
-</x-settings>
+            return x ? true : false;
+        }
+    </script>
 </x-app-layout>

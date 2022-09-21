@@ -202,9 +202,10 @@ class ListingController extends Controller
         ];
         if ($listing->is_editable())
         {
+            $slug = Str::slug($request->title) . '-' . rand(1111, 9999);
             $listing->update([
                 'title' => $request->title,
-                'slug' => Str::slug($request->title) . '-' . rand(1111, 9999),
+                'slug' => $slug,
                 'apply_link' => $request->apply_link,
                 'content' => $request->content,
                 'age_min' => $request->age_min,
@@ -234,10 +235,29 @@ class ListingController extends Controller
             
             Session::flash('message', 'Successfully Updated!'); 
             
-            return redirect()->route('listings.index');
+            return redirect()->route('listings.show', $slug);
         } else {
-            Auth::logout();
-            return redirect()->route('login');
+            return redirect()->back()->withErrors([
+                'message' => 'You are not admin or lisitng creator'
+            ]);
+        }
+    }
+
+    public function destroy(Request $request, Listing $listing)
+    {
+        if ($listing->is_editable())
+        {
+            $listing->tags()->sync([]);
+            $listing->tags()->sync([]);
+            $listing->delete();
+
+            Session::flash('message', 'Listing Successfully Deleted!'); 
+
+            return redirect()->back();
+        } else {
+            return redirect()->back()->withErrors([
+                'message' => 'You are not admin or lisitng creator'
+            ]);
         }
     }
 }

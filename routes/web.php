@@ -37,6 +37,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'role:Admin
     Route::get('/users', [Controllers\AdminController::class, 'users'])->name('users');
     Route::get('/companies', [Controllers\AdminController::class, 'companies'])->name('companies');
     Route::get('/listings', [Controllers\AdminController::class, 'listings'])->name('listings');
+    Route::get('/tags', [Controllers\AdminController::class, 'tags'])->name('tags');
 });
 
 Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => 'role:Employer'], function () {
@@ -46,6 +47,8 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => 'role:E
     Route::put('/update', [Controllers\CompanyController::class, 'update'])->name('update');
 });
 
+Route::resource('tags', Controllers\TagController::class)->middleware('role:Admin');
+
 Route::get('/new', [Controllers\ListingController::class, 'create'])
     ->name('listings.create');
 Route::get('/{listing:slug}', [Controllers\ListingController::class, 'show'])
@@ -54,6 +57,8 @@ Route::get('/{listing:slug}/edit', [Controllers\ListingController::class, 'edit'
     ->name('listings.edit');
 Route::put('/{listing:slug}/update', [Controllers\ListingController::class, 'update'])
     ->name('listings.update');
+Route::delete('/listings/{listing:slug}', [Controllers\ListingController::class, 'destroy'])
+    ->name('listings.destroy');
 
 Route::get('/{listing:slug}/apply', [Controllers\ListingController::class, 'apply'])
     ->name('listings.apply');

@@ -15,4 +15,14 @@ class Tag extends Model
     {
         return $this->belongsToMany(Listing::class, 'listing_tag', 'tag', 'listing');
     }
+
+    public function profiles()
+    {
+        return $this->belongsToMany(Profile::class, 'profiles_tags', 'tag', 'profile');
+    }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'companies_tags', 'tag', 'company');
+    }
 }

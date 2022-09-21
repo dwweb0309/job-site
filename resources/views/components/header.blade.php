@@ -73,9 +73,6 @@
                                 @if(Auth::user()->is_employer())
                                 <a href="{{ route('company.listings') }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
                                     tabindex="-1" id="user-menu-item-0">My listings</a>
-                                @endif
-
-                                @if(Auth::user()->is_employer())
                                 <a href="{{ route('company.dashboard') }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
                                     tabindex="-1" id="user-menu-item-0">
                                         Company information
@@ -85,10 +82,13 @@
                                     tabindex="-1" id="user-menu-item-0">
                                     My Profile
                                 </a>
+                                @elseif(Auth::user()->is_admin())
+                                <a href="{{ route('admin.users') }}" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
+                                    tabindex="-1" id="user-menu-item-0">
+                                    Dashboard
+                                </a>
                                 @endif
 
-                                <a href="#" class="block px-4 py-2 text-sm text-blue-700" role="menuitem"
-                                    tabindex="-1" id="user-menu-item-1">Settings</a>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
 
