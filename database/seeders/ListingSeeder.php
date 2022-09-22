@@ -20,6 +20,7 @@ class ListingSeeder extends Seeder
         foreach ($listings as $listing) {
             for ($i=0; $i < 3; $i++) { 
                 $listing->tags()->attach(\App\Models\Tag::get()->random()->id);
+                $listing->categories()->attach(\App\Models\Category::get()->random()->id);
             }
         }
     }

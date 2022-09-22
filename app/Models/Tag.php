@@ -10,7 +10,11 @@ class Tag extends Model
     use HasFactory;
 
     protected $guarded = [];
-
+    protected $fillable = [
+        'name',
+        'slug'
+    ];
+    
     public function listings()
     {
         return $this->belongsToMany(Listing::class, 'listing_tag', 'tag', 'listing');

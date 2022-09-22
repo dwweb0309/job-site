@@ -38,6 +38,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'role:Admin
     Route::get('/companies', [Controllers\AdminController::class, 'companies'])->name('companies');
     Route::get('/listings', [Controllers\AdminController::class, 'listings'])->name('listings');
     Route::get('/tags', [Controllers\AdminController::class, 'tags'])->name('tags');
+    Route::get('/industries', [Controllers\AdminController::class, 'industries'])->name('industries');
 });
 
 Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => 'role:Employer'], function () {
@@ -48,6 +49,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => 'role:E
 });
 
 Route::resource('tags', Controllers\TagController::class)->middleware('role:Admin');
+Route::resource('industries', Controllers\IndustryController::class)->middleware('role:Admin');
 
 Route::get('/new', [Controllers\ListingController::class, 'create'])
     ->name('listings.create');

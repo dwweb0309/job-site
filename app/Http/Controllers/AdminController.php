@@ -48,4 +48,10 @@ class AdminController extends Controller
 
         return view('admin.tags', compact('tags'));
     }
+
+    public function industries(Request $request) {
+        $industries = Industry::get();
+
+        return view('admin.industries', compact('industries'));
+    }
 }

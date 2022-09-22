@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-use App\Models\Tag;
+use App\Models\Industry;
 
-class TagController extends Controller
+class IndustryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,7 +37,16 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255']
+        ]);
+
+        Industry::create([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name)
+        ]);
+
+        return redirect()->route('admin.industries');
     }
 
     /**
@@ -57,9 +66,8 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tag $tag)
+    public function edit(Industry $industry)
     {
-        return view('admin.tags_edit', compact('tag'));
     }
 
     /**
@@ -69,18 +77,18 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tag $tag)
+    public function update(Request $request, Industry $industry)
     {
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255']
         ]);
 
-        $tag->update([
+        $industry->update([
             'name' => $request->name,
             'slug' => Str::slug($request->name)
         ]);
 
-        return redirect()->route('admin.tags');
+        return redirect()->route('admin.industries');
     }
 
     /**
@@ -89,13 +97,11 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tag $tag)
+    public function destroy(Industry $industry)
     {
-        $tag->profiles()->sync([]);
-        $tag->companies()->sync([]);
-        $tag->listings()->sync([]);
+        $industry->companies()->sync([]);
 
-        $tag->delete();
+        $industry->delete();
 
         return redirect()->back();
     }

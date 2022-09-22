@@ -33,13 +33,4 @@
             </form>
         </div>
     </div>
-
-    <script>
-        function ConfirmDelete()
-        {
-            const x = confirm("Are you sure you want to delete?");
-
-            return x ? true : false;
-        }
-    </script>
 </x-app-layout>

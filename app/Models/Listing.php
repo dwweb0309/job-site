@@ -47,6 +47,10 @@ class Listing extends Model
         return $this->belongsToMany(Tag::class, 'listing_tag', 'listing', 'tag');
     }
 
+    public function categories() {
+        return $this->belongsToMany(Category::class, 'listing_category');
+    }
+
     public function clicks() {
         return $this->hasMany(Click::class, 'listing_id');
     }
