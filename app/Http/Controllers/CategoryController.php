@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-use App\Models\Industry;
+use App\Models\Category;
 
-class IndustryController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,14 +18,14 @@ class IndustryController extends Controller
     {
         if ($request->has('q'))
         {
-            $industries = Industry::where('name', 'like', '%' . $request->q . '%')->get();
+            $categories = Category::where('name', 'like', '%' . $request->q . '%')->get();
         }
         else
         {
-            $industries = Industry::get();
+            $categories = Category::get();
         }
 
-        return view('admin.industries', compact('industries'));
+        return view('admin.categories', compact('categories'));
     }
 
     /**
@@ -50,12 +50,12 @@ class IndustryController extends Controller
             'name' => ['required', 'string', 'max:255']
         ]);
 
-        Industry::create([
+        Tag::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name)
         ]);
 
-        return redirect()->route('admin.industries');
+        return redirect()->route('admin.tags');
     }
 
     /**
@@ -75,7 +75,7 @@ class IndustryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Industry $industry)
+    public function edit(Tag $tag)
     {
     }
 
@@ -86,18 +86,18 @@ class IndustryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Industry $industry)
+    public function update(Request $request, Category $category)
     {
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255']
         ]);
 
-        $industry->update([
+        $category->update([
             'name' => $request->name,
             'slug' => Str::slug($request->name)
         ]);
 
-        return redirect()->route('admin.industries');
+        return redirect()->route('admin.categories');
     }
 
     /**
@@ -106,11 +106,11 @@ class IndustryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Industry $industry)
+    public function destroy(Category $category)
     {
-        $industry->companies()->sync([]);
+        $category->listings()->sync([]);
 
-        $industry->delete();
+        $category->delete();
 
         return redirect()->back();
     }
@@ -122,6 +122,6 @@ class IndustryController extends Controller
      */
     public function search(Request $request)
     {
-        return redirect()->route('admin.industries', ['q' => $request->q]);
+        return redirect()->route('admin.categories', ['q' => $request->q]);
     }
 }

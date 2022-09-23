@@ -14,9 +14,18 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->has('q'))
+        {
+            $tags = Tag::where('name', 'like', '%' . $request->q . '%')->get();
+        }
+        else
+        {
+            $tags = Tag::get();
+        }
+
+        return view('admin.tags', compact('tags'));
     }
 
     /**
@@ -37,7 +46,16 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255']
+        ]);
+
+        Tag::create([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name)
+        ]);
+
+        return redirect()->route('admin.tags');
     }
 
     /**
@@ -59,7 +77,6 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        return view('admin.tags_edit', compact('tag'));
     }
 
     /**
@@ -98,5 +115,15 @@ class TagController extends Controller
         $tag->delete();
 
         return redirect()->back();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        return redirect()->route('admin.tags', ['q' => $request->q]);
     }
 }

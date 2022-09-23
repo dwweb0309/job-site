@@ -8,8 +8,8 @@
         <div class="container py-8 lg:py-12" x-data="{ isCreating: false }">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-xl font-semibold text-gray-900">Industries</h1>
-                    <p class="mt-2 text-sm text-gray-700">A list of all industries.</p>
+                    <h1 class="text-xl font-semibold text-gray-900">Categories</h1>
+                    <p class="mt-2 text-sm text-gray-700">A list of all categories.</p>
                 </div>
                 <div class="sm:ml-4 sm:flex-none">
                     <label for="search" class="sr-only">Search</label>
@@ -24,7 +24,8 @@
                                     clip-rule="evenodd" />
                             </svg>
                         </div>
-                        <form action="{{ route('admin.industries.search') }}" method="post" class="flex">
+
+                        <form action="{{ route('admin.categories.search') }}" method="post" class="flex">
                         @csrf
                             <input type="text" name="q" id="search" value="{{ app('request')->input('q') }}"
                                 class="block w-full rounded-md border-gray-300 py-2 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -38,8 +39,7 @@
                         class="inline-flex items-center justify-center rounded-md
                             border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium
                             text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                            @click="isCreating = true">Add
-                        Industry</button>
+                            @click="isCreating = true">Add Category</button>
                 </div>
 
             </div>
@@ -47,7 +47,7 @@
             <div class="mt-8 flex flex-col">
                 <div x-show="isCreating"
                     class="whitespace-nowrap py-4 pr-3 text-sm font-medium ">
-                    <form action="{{ route('industries.store') }}"
+                    <form action="{{ route('categories.store') }}"
                         method="post" class="flex">
                         @csrf
 
@@ -93,7 +93,7 @@
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <!-- Selected: "bg-gray-50" -->
 
-                                    @foreach ($industries as $industry)
+                                    @foreach ($categories as $category)
                                         <tr x-data="{ isSelected: false, isEdited: false }" :class="isSelected ? 'bg-gray-50' : ''">
                                             <td class="relative w-12 px-6 sm:w-16 sm:px-8">
                                                 <!-- Selected row marker, only show when row is selected. -->
@@ -107,11 +107,11 @@
                                             <td x-show="!isEdited"
                                                 class="whitespace-nowrap py-4 pr-3 text-sm font-medium "
                                                 :class="isSelected ? 'text-indigo-600' : 'text-gray-900'">
-                                                {{ $industry->name }}</td>
+                                                {{ $category->name }}</td>
                                             <td x-show="isEdited"
                                                 class="whitespace-nowrap py-4 pr-3 text-sm font-medium "
                                                 :class="isSelected ? 'text-indigo-600' : 'text-gray-900'">
-                                                <form action="{{ route('industries.update', $industry->id) }}"
+                                                <form action="{{ route('categories.update', $category->id) }}"
                                                     method="post" class="flex">
                                                     @method('PUT')
                                                     @csrf
@@ -127,7 +127,7 @@
                                                     @endif
 
                                                     <x-input id="name" class="mr-1" type="text" name="name"
-                                                        :value="old('name') ?? $industry->name" />
+                                                        :value="old('name') ?? $category->name" />
 
                                                     <button type="submit" id="form_submit"
                                                         class="items-center bg-indigo-500 text-white border-0 focus:outline-none hover:bg-indigo-600 rounded text-base px-5 py-3">Update</button>
@@ -139,14 +139,14 @@
                                                 class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                 <button @click="isEdited = ! isEdited"
                                                     class="text-blue-600 hover:text-indigo-900 mr-2">Edit<span
-                                                        class="sr-only">, {{ $industry->name }}</span></button>
-                                                <form action="{{ route('industries.destroy', $industry->id) }}"
+                                                        class="sr-only">, {{ $category->name }}</span></button>
+                                                <form action="{{ route('categories.destroy', $category->id) }}"
                                                     method="post" onsubmit="return ConfirmDelete();">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button type="submit"
                                                         class="text-red-800 hover:text-indigo-900">Delete<span
-                                                            class="sr-only">, {{ $industry->name }}</span></button>
+                                                            class="sr-only">, {{ $category->name }}</span></button>
                                                 </form>
                                             </td>
                                         </tr>
