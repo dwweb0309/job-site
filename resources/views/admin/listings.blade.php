@@ -26,9 +26,13 @@
                                   clip-rule="evenodd" />
                           </svg>
                       </div>
-                      <input type="text" name="search" id="search"
-                          class="block w-full rounded-md border-gray-300 py-2 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                          placeholder="Search">
+                        <form action="{{ route('admin.listings.search') }}" method="post" class="flex">
+                            @csrf
+                            <input type="text" name="q" id="search" value="{{ app('request')->input('q') }}"
+                                class="block w-full rounded-md border-gray-300 py-2 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                placeholder="Search">
+                            <input type="submit" hidden>
+                        </form>
                   </div>
               </div>
                 <div class="mt-4 sm:mt-0 sm:ml-4 sm:flex-none">

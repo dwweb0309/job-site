@@ -35,8 +35,10 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => 'au
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'role:Admin'], function () {
     Route::get('/', [Controllers\AdminController::class, 'index'])->name('index');
     Route::get('/users', [Controllers\AdminController::class, 'users'])->name('users');
+    Route::post('/users/search', [Controllers\AdminController::class, 'searchUsers'])->name('users.search');
     Route::get('/companies', [Controllers\AdminController::class, 'companies'])->name('companies');
     Route::get('/listings', [Controllers\AdminController::class, 'listings'])->name('listings');
+    Route::post('/listings/search', [Controllers\ListingController::class, 'search'])->name('listings.search');
     Route::get('/tags', [Controllers\TagController::class, 'index'])->name('tags');
     Route::post('/tags/search', [Controllers\TagController::class, 'search'])->name('tags.search');
     Route::get('/industries', [Controllers\IndustryController::class, 'index'])->name('industries');

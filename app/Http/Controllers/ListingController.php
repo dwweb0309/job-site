@@ -260,4 +260,14 @@ class ListingController extends Controller
             ]);
         }
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        return redirect()->route('admin.listings', ['q' => $request->q]);
+    }
 }
