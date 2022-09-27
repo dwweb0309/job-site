@@ -50,12 +50,12 @@ class CategoryController extends Controller
             'name' => ['required', 'string', 'max:255']
         ]);
 
-        Tag::create([
+        Category::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name)
         ]);
 
-        return redirect()->route('admin.tags');
+        return redirect()->route('admin.categories');
     }
 
     /**

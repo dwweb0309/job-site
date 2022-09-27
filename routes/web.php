@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 require __DIR__.'/auth.php';
 
+Route::get('/mailable', function () {
+    $user = App\Models\User::find(1);
+    
+    return new App\Mail\CandidateRegistered($user);
+});
+
 Route::get('/', [Controllers\ListingController::class, 'index'])
     ->name('listings.index');
 
@@ -37,6 +43,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'role:Admin
     Route::get('/users', [Controllers\AdminController::class, 'users'])->name('users');
     Route::post('/users/search', [Controllers\AdminController::class, 'searchUsers'])->name('users.search');
     Route::get('/companies', [Controllers\AdminController::class, 'companies'])->name('companies');
+    Route::post('/companies/search', [Controllers\AdminController::class, 'searchCompanies'])->name('companies.search');
     Route::get('/listings', [Controllers\AdminController::class, 'listings'])->name('listings');
     Route::post('/listings/search', [Controllers\ListingController::class, 'search'])->name('listings.search');
     Route::get('/tags', [Controllers\TagController::class, 'index'])->name('tags');

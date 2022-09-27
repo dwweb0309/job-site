@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Profile;
-use App\Models\Location;
-use App\Models\CurrencyCode;
+
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Mail;
+
+use App\Models\User;
+use App\Models\Profile;
+use App\Models\Location;
+use App\Models\CurrencyCode;
+
+use App\Mail\CandidateRegistered;
 
 class RegisteredCandidateController extends Controller
 {
@@ -108,9 +113,10 @@ class RegisteredCandidateController extends Controller
 
         $user->listings()->attach($listing_slug['id']);
 
-        event(new Registered($user));
+        // event(new Registered($user));
 
         Auth::login($user);
+        Mail::to($user)->send(new CandidateRegistered($user));
 
         return redirect()->route('listings.show', ['listing' => $listing_slug['slug'], 'success' => true]);
     }

@@ -36,7 +36,15 @@ class AdminController extends Controller
     }
 
     public function companies(Request $request) {
-        $companies = Company::paginate(5);
+        if ($request->has('q'))
+        {
+            $companies = Company::where('name', 'like', '%' . $request->q . '%')->paginate(7);
+        }
+        else
+        {
+            $companies = Company::paginate(7);
+        }
+
         $locations = Location::listing_locations();
         $tags = Tag::get();
         $industries = Industry::get();
@@ -74,5 +82,10 @@ class AdminController extends Controller
     public function searchUsers(Request $request)
     {
         return redirect()->route('admin.users', ['q' => $request->q]);
+    }
+
+    public function searchCompanies(Request $request)
+    {
+        return redirect()->route('admin.companies', ['q' => $request->q]);
     }
 }
